@@ -14,6 +14,13 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
@@ -51,3 +58,6 @@ bld/
 .dotnet
 temp
 .packages
+
+#solution files
+*.sln

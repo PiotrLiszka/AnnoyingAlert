@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alert.MainPage"
+             xmlns:viewmodel="clr-namespace:Alert.ViewModel"
+             x:DataType="viewmodel:MainViewModel"
+             xmlns:datatypes ="clr-namespace:Alert.DataTypes"
+             BackgroundColor="Black">
+
+    <Grid RowDefinitions="100, *, Auto"
+          Padding="10">
+
+        <Image Source="angry_emoji.png"
+               BackgroundColor="Transparent"/>
+        <Image Source="gun.png"
+               BackgroundColor="Transparent"
+               TranslationX="-15"
+               TranslationY="30"
+               Scale=".8"/>
+
+        <Button Text="New alert"
+                Command="{Binding AddCommand}"
+                Grid.Row="2" />
+
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Alerts}"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="datatypes:AlertInfo">
+                    <Grid Padding="1"
+                          ColumnDefinitions=".50*, *, .30*">
+                        
+                        <Frame Grid.ColumnSpan="3" BackgroundColor="Grey">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        
+                        <Label Text="{Binding Path=Time, StringFormat='{0:HH:mm}'}"
+                               FontSize="18"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Text="{Binding Name}"
+                               Grid.Column="1"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Start"/>
+
+                        <Switch Grid.Column="2"
+                                IsToggled="False"
+                                HorizontalOptions="End">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    
+                                    <VisualState x:Name="On">
+                                        <VisualState.Setters>
+                                            <Setter Property="ThumbColor"
+                                                    Value="Green" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    
+                                    <VisualState x:Name="Off">
+                                        <VisualState.Setters>
+                                            <Setter Property="ThumbColor"
+                                                    Value="Red"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Switch>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </Grid>
+
+</ContentPage>
