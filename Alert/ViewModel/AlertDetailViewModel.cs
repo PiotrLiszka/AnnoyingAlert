@@ -13,9 +13,13 @@ namespace Alert.ViewModel;
 [QueryProperty("Info", "Info")]
 [QueryProperty("Name", "Name")]
 [QueryProperty("Time", "Time")]
+[QueryProperty("IsAlertNew", "IsAlertNew")]
 
 public partial class AlertDetailViewModel : ObservableObject
 {
+    [ObservableProperty]
+    bool isAlertNew;
+
     [ObservableProperty]
     TimeSpan time;
 
@@ -26,10 +30,33 @@ public partial class AlertDetailViewModel : ObservableObject
     AlertInfo? info;
 
     [RelayCommand]
-    async Task Back()
+    async Task Back(bool cancelled = true)
     {
-        await Shell.Current.GoToAsync("..", animate: true);
+        if (Info is null)
+            return;
+
+        if (cancelled == false)
+        { 
+            // if backed from existing alert, just go back to MainView
+            if (IsAlertNew == false)
+            {
+                await Shell.Current.GoToAsync($"..?Cancelled = {cancelled}", animate: true);
+                return;
+            }
+            // if saved new alert, go back to MainView and add it to ObservableCollection
+            await Shell.Current.GoToAsync($"..", animate: true,
+                new Dictionary<string, object>
+            {
+                {"ModifiedAlert", this.Info},
+                {"Cancelled", cancelled }
+            });
+            return;
+        }
+
+        // if back is clicked with new alert, just go back to MainView
+        await Shell.Current.GoToAsync($"..?Cancelled = {cancelled}", animate: true);
     }
+
     [RelayCommand]
     async Task Save()
     {
@@ -38,9 +65,11 @@ public partial class AlertDetailViewModel : ObservableObject
         if (Name is null || Name == string.Empty)
             return;
 
-        // save and then go back to main
+        // save new alert information to class and then go back to main
         Info.Time = TimeOnly.FromTimeSpan(Time);
         Info.Name = Name;
-        await Back();
+        Info.Active = true;
+        await Back(false);
     }
+
 }

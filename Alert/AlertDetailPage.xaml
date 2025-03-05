@@ -4,9 +4,13 @@
              x:Class="Alert.AlertDetailPage"
              xmlns:viewmodel="clr-namespace:Alert.ViewModel"
              x:DataType="viewmodel:AlertDetailViewModel"
-             BackgroundColor="Black"
-             Background="Black"
              Title="Alert Details">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <!--BackgroundColor="Black"
+             Background="Black"-->
 
     <Grid RowDefinitions="100, 0.4*, 0.4*, auto"
           ColumnDefinitions=".3*, .4*, .3*"
@@ -17,29 +21,30 @@
         <Label Text="Cancel"
                HorizontalOptions="Start"
                VerticalOptions="Start"
-               TextColor="LightGray"
                Padding="10"
                FontSize="Medium" >
+               <!--TextColor="LightGray"-->
             <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:AlertDetailViewModel}}, Path=BackCommand}"/>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:AlertDetailViewModel}}, Path=BackCommand }"
+                                      CommandParameter="{x:Boolean true}"/>
             </Label.GestureRecognizers>
         </Label>
 
         <Label Text="Edit Alert"
                HorizontalOptions="Center"
                VerticalOptions="Start"
-               TextColor="LightGray"
                Padding="10"
                Grid.Column="1"
                FontSize="Large" />
+               <!--TextColor="LightGray"-->
         
         <Label Text="Save"
                HorizontalOptions="End"
                VerticalOptions="Start"
-               TextColor="LightGray"
                Padding="10"
                Grid.Column="2"
                FontSize="Medium" >
+               <!--TextColor="LightGray"-->
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:AlertDetailViewModel}}, Path=SaveCommand}"/>
             </Label.GestureRecognizers>
@@ -47,23 +52,23 @@
 
         <TimePicker Time="{Binding Time}"
                     Format="HH:mm"
-                    TextColor="White"
                     Grid.Row="1"
                     HeightRequest="80"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="Center"
-                    FontSize="50"
-                    BackgroundColor="Gray"/>
+                    FontSize="50" />
+        <!--BackgroundColor="Gray"/>-->
+                    <!--TextColor="White"-->
 
         <Entry Placeholder="Alert name"
                Text="{Binding Name}"
                IsPassword="False"
-               BackgroundColor="Black"
-               TextColor="LightGray"
                Grid.Row="2"
                Grid.Column="1"
                VerticalOptions="Start"
                HorizontalOptions="Center"/>
+               <!--BackgroundColor="Black"
+               TextColor="LightGray"-->
 
 
     </Grid>

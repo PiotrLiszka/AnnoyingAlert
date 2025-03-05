@@ -4,8 +4,8 @@
              x:Class="Alert.MainPage"
              xmlns:viewmodel="clr-namespace:Alert.ViewModel"
              x:DataType="viewmodel:MainViewModel"
-             xmlns:datatypes ="clr-namespace:Alert.DataTypes"
-             BackgroundColor="Black">
+             xmlns:datatypes ="clr-namespace:Alert.DataTypes">
+    <!--BackgroundColor="Black"-->
 
     <Grid RowDefinitions="100, *, Auto"
           Padding="10">
@@ -19,7 +19,7 @@
                Scale=".8"/>
 
         <Button Text="New alert"
-                Command="{Binding AddCommand}"
+                Command="{Binding AddAlertCommand}"
                 Grid.Row="2" />
 
         <CollectionView Grid.Row="1"
@@ -28,10 +28,21 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="datatypes:AlertInfo">
-                    <Grid Padding="1"
+                    <SwipeView Grid.ColumnSpan="3">
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteAlertCommand}"
+                                           CommandParameter="{Binding .}"
+                                           />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                    <Grid Padding="2"
                           ColumnDefinitions=".50*, *, .30*">
-                        
-                        <Frame Grid.ColumnSpan="3" BackgroundColor="Grey">
+                        <Frame Grid.ColumnSpan="3" Padding="0">
+                            <!--<BackgroundColor="Grey">--> 
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
                                                       CommandParameter="{Binding .}" />
@@ -47,11 +58,13 @@
                                Grid.Column="1"
                                VerticalOptions="Center"
                                HorizontalTextAlignment="Start"/>
-
+                        
+                        <!--CZEMU NA WINDOWS MACHINE BUGUJE?????-->
+                        
                         <Switch Grid.Column="2"
-                                IsToggled="False"
+                                IsToggled="{Binding Active}"
                                 HorizontalOptions="End">
-                            <VisualStateManager.VisualStateGroups>
+                            <!--<VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     
                                     <VisualState x:Name="On">
@@ -69,9 +82,10 @@
                                     </VisualState>
                                     
                                 </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                            </VisualStateManager.VisualStateGroups>-->
                         </Switch>
                     </Grid>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
