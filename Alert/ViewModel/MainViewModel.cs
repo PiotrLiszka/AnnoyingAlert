@@ -10,6 +10,7 @@ using System.Text.Json;
 
 using Alert.DataTypes;
 using System.Collections.Specialized;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Alert.ViewModel
 {
@@ -20,22 +21,26 @@ namespace Alert.ViewModel
     {
         public MainViewModel()
         {
-            Alerts = new ObservableCollection<AlertInfo>();
-            Alerts.CollectionChanged += MyAlertsChanged;
+            //File.Delete(savePath);
+            Alerts = ReadAlertsFromStorage();
+
+            Alerts.CollectionChanged += SaveAlertChanges;
         }
 
-        [ObservableProperty]
-        ObservableCollection<AlertInfo> alerts;
+        private readonly string savePath = Path.Combine(FileSystem.Current.AppDataDirectory, "alerts.json");
 
         [ObservableProperty]
-        bool cancelled;
+        private ObservableCollection<AlertInfo> alerts;
 
         [ObservableProperty]
-        AlertInfo? modifiedAlert;
+        private bool cancelled;
+
+        [ObservableProperty]
+        private AlertInfo? modifiedAlert;
 
         // test
         [RelayCommand]
-        async Task AddAlert()
+        private async Task AddAlert()
         {
             // add new alert
             AlertInfo ai = new AlertInfo(TimeOnly.FromDateTime(DateTime.Now), $"Alert", true);
@@ -54,7 +59,7 @@ namespace Alert.ViewModel
 
         //  test
         [RelayCommand]
-        async Task Tap(AlertInfo ai)
+        private async Task Tap(AlertInfo ai)
         {
             await Shell.Current.GoToAsync("Alert Details", animate: true,
                 new Dictionary<string, object>
@@ -67,17 +72,42 @@ namespace Alert.ViewModel
         }
 
         [RelayCommand]
-        void DeleteAlert(AlertInfo ai)
+        private void DeleteAlert(AlertInfo ai)
         {
             Alerts.Remove(ai);
         }
         
-        private void MyAlertsChanged(object? sender, NotifyCollectionChangedEventArgs args)
+        private void SaveAlertChanges(object? sender, NotifyCollectionChangedEventArgs args)
         {
             if (Alerts.Count == 0)
                 return;
+
             // TODO : save data locally, read it at startup
-            var json = JsonSerializer.Serialize(Alerts);
+            var jsonAlerts = JsonSerializer.Serialize(Alerts);
+
+            File.WriteAllText(savePath, jsonAlerts);
+        }
+
+        /// <summary>
+        /// Reads alert list from locally stored json file
+        /// </summary>
+        private ObservableCollection<AlertInfo> ReadAlertsFromStorage()
+        {
+            if (!File.Exists(savePath))
+                return [];
+
+            string jsonString = File.ReadAllText(savePath);
+            
+            if (string.IsNullOrEmpty(jsonString))
+                return [];
+
+            var alertInfo = JsonSerializer.Deserialize<ObservableCollection<AlertInfo>>(jsonString);
+
+            if (alertInfo is not null)
+                return alertInfo;
+
+            return [];
+
         }
 
         partial void OnModifiedAlertChanged(AlertInfo? value)
