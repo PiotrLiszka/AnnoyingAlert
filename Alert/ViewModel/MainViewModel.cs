@@ -82,7 +82,6 @@ namespace Alert.ViewModel
             if (Alerts.Count == 0)
                 return;
 
-            // TODO : save data locally, read it at startup
             var jsonAlerts = JsonSerializer.Serialize(Alerts);
 
             File.WriteAllText(savePath, jsonAlerts);
@@ -91,6 +90,7 @@ namespace Alert.ViewModel
         /// <summary>
         /// Reads alert list from locally stored json file
         /// </summary>
+        /// <returns>Array with saved alerts</returns>
         private ObservableCollection<AlertInfo> ReadAlertsFromStorage()
         {
             if (!File.Exists(savePath))
