@@ -7,6 +7,7 @@
             InitializeComponent();
 
             Routing.RegisterRoute("Alert Details", typeof(AlertDetailPage));
+            Routing.RegisterRoute("Activate Alert", typeof(AlertActivatedPage));
         }
     }
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Alert.AlertActivatedPage"
+             xmlns:viewmodel="clr-namespace:Alert.ViewModel"
+             x:DataType="viewmodel:AlertActivatedViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="WAKE UP"
+             Unloaded="ContentPage_Unloaded">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    
+    <VerticalStackLayout Padding="20">
+        <toolkit:MediaElement HorizontalOptions="Center" x:Name="mediaElement"
+                              Source="embed://testsong.mp3"
+                              ShouldShowPlaybackControls="False" ShouldAutoPlay="False" IsVisible="False" />
+        <Label Text="{Binding Info.Time, StringFormat='{0:HH:mm}'}"
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center" 
+               FontSize="60" />
+        <Label Text="{Binding Info.Name}" 
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center" 
+               FontSize="45" />
+        <Label Text="PIN"
+               HorizontalOptions="Center"
+               FontSize="70" />
+        <Label Text="{Binding Pin}"
+               HorizontalOptions="Center"
+               FontSize="50" />
+        <ProgressBar ScaleY="4" Progress=".8" ProgressColor="Green" Margin="0,20,0,20"/>
+        <Grid RowDefinitions="1*,1*,1*" 
+              ColumnDefinitions="auto,auto,auto"
+              HorizontalOptions="Center">
+            <Button Text="1" Grid.Row="0" Grid.Column="0" x:Name="PinButton1" Margin="5,5,5,5"/>
+            <Button Text="2" Grid.Row="0" Grid.Column="1" x:Name="PinButton2" Margin="5,5,5,5"/>
+            <Button Text="3" Grid.Row="0" Grid.Column="2" x:Name="PinButton3" Margin="5,5,5,5"/>
+            <Button Text="4" Grid.Row="1" Grid.Column="0" x:Name="PinButton4" Margin="5,5,5,5"/>
+            <Button Text="5" Grid.Row="1" Grid.Column="1" x:Name="PinButton5" Margin="5,5,5,5"/>
+            <Button Text="6" Grid.Row="1" Grid.Column="2" x:Name="PinButton6" Margin="5,5,5,5"/>
+            <Button Text="7" Grid.Row="2" Grid.Column="0" x:Name="PinButton7" Margin="5,5,5,5"/>
+            <Button Text="8" Grid.Row="2" Grid.Column="1" x:Name="PinButton8" Margin="5,5,5,5"/>
+            <Button Text="9" Grid.Row="2" Grid.Column="2" x:Name="PinButton9" Margin="5,5,5,5"/>
+        </Grid>
+        
+
+    </VerticalStackLayout>
+</ContentPage>
