@@ -45,9 +45,9 @@
                             <Button Grid.Column="1" HorizontalOptions="Center" x:Name="TestButton" Text="Run"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=ActivateAlertCommand}"
                                     CommandParameter="{Binding .}" 
-                                    ZIndex="3" />
+                                    ZIndex="1" />
 
-                            <Frame Grid.ColumnSpan="2" Padding="0" ZIndex="1">
+                            <Frame Grid.ColumnSpan="2" Padding="0" ZIndex="0">
                                 <!--<BackgroundColor="Grey">-->
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"

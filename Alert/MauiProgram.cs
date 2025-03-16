@@ -25,6 +25,9 @@ namespace Alert
             builder.Services.AddTransient<AlertDetailPage>();
             builder.Services.AddTransient<AlertDetailViewModel>();
 
+            builder.Services.AddTransient<AlertActivatedPage>();
+            builder.Services.AddTransient<AlertActivatedViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

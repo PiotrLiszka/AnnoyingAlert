@@ -15,7 +15,7 @@
     <VerticalStackLayout Padding="20">
         <toolkit:MediaElement HorizontalOptions="Center" x:Name="mediaElement"
                               Source="embed://testsong.mp3"
-                              ShouldShowPlaybackControls="False" ShouldAutoPlay="False" IsVisible="False" />
+                              ShouldShowPlaybackControls="False" ShouldAutoPlay="True" IsVisible="False" />
         <Label Text="{Binding Info.Time, StringFormat='{0:HH:mm}'}"
                HorizontalOptions="Center" 
                HorizontalTextAlignment="Center" 
