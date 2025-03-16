@@ -43,6 +43,7 @@
             <Button Text="7" Grid.Row="2" Grid.Column="0" x:Name="PinButton7" Margin="5,5,5,5"/>
             <Button Text="8" Grid.Row="2" Grid.Column="1" x:Name="PinButton8" Margin="5,5,5,5"/>
             <Button Text="9" Grid.Row="2" Grid.Column="2" x:Name="PinButton9" Margin="5,5,5,5"/>
+            
         </Grid>
         
 
