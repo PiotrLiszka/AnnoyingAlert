@@ -4,7 +4,8 @@
              x:Class="Alert.MainPage"
              xmlns:viewmodel="clr-namespace:Alert.ViewModel"
              x:DataType="viewmodel:MainViewModel"
-             xmlns:datatypes ="clr-namespace:Alert.DataTypes">
+             xmlns:datatypes ="clr-namespace:Alert.DataTypes"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <!--BackgroundColor="Black"-->
 
     <Grid RowDefinitions="100, *, Auto"
@@ -39,57 +40,73 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                    <Grid Padding="2"
-                          ColumnDefinitions=".50*, *, .30*">
-                        <Frame Grid.ColumnSpan="3" Padding="0">
-                            <!--<BackgroundColor="Grey">--> 
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
-                                                      CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-                        </Frame>
-                        
-                        <Label Text="{Binding Path=Time, StringFormat='{0:HH:mm}'}"
-                               FontSize="18"
-                               HorizontalTextAlignment="Center"
-                               VerticalOptions="Center"/>
-                        
-                        <Label Text="{Binding Name}"
-                               Grid.Column="1"
-                               VerticalOptions="Center"
-                               HorizontalTextAlignment="Start"/>
-                        
-                        <!--CZEMU NA WINDOWS MACHINE BUGUJE?????-->
-                        
-                        <Switch Grid.Column="2"
+                        <Grid Padding="2" ColumnDefinitions=".70*,.30*">
+                            
+                            <Button Grid.Column="1" HorizontalOptions="Center" x:Name="TestButton" Text="Run"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=ActivateAlertCommand}"
+                                    CommandParameter="{Binding .}" 
+                                    ZIndex="3" />
+
+                            <Frame Grid.ColumnSpan="2" Padding="0" ZIndex="1">
+                                <!--<BackgroundColor="Grey">-->
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Frame.Behaviors>
+                                    <toolkit:TouchBehavior LongPressDuration="300"/>
+                                    <!-- TODO : create popup that gives option to edit/delete -->
+                                </Frame.Behaviors>
+
+                                <Grid Padding="2"
+                                    ColumnDefinitions=".50*, *, .30*">
+
+                                    <Label Text="{Binding Path=Time, StringFormat='{0:HH:mm}'}"
+                                        FontSize="18"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="Center"/>
+                                    <Label Text="{Binding Name}"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="Start"/>
+
+                                    <!--CZEMU NA WINDOWS MACHINE BUGUJE?????-->
+
+                                    <!--<Switch Grid.Column="2"
                                 IsToggled="{Binding Active}"
-                                HorizontalOptions="End">
-                            <!--<VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
+                                    HorizontalOptions="End">
+                                -->
+                                    <!--<VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
                                     
-                                    <VisualState x:Name="On">
-                                        <VisualState.Setters>
-                                            <Setter Property="ThumbColor"
-                                                    Value="Green" />
-                                        </VisualState.Setters>
-                                    </VisualState>
+                                        <VisualState x:Name="On">
+                                            <VisualState.Setters>
+                                                <Setter Property="ThumbColor"
+                                                        Value="Green" />
+                                            </VisualState.Setters>
+                                        </VisualState>                                  **** OGARNĄĆ VISUALSTATE W WINDOWS MACHINE ****
                                     
-                                    <VisualState x:Name="Off">
-                                        <VisualState.Setters>
-                                            <Setter Property="ThumbColor"
-                                                    Value="Red"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
+                                        <VisualState x:Name="Off">
+                                            <VisualState.Setters>
+                                                <Setter Property="ThumbColor"
+                                                        Value="Red"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
                                     
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>-->
-                        </Switch>
-                    </Grid>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>-->
+                                    <!--
+                                </Switch>-->
+
+
+                                </Grid>
+                            </Frame>
+                        </Grid>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
+
     </Grid>
 
 </ContentPage>

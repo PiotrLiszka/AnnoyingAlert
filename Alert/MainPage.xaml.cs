@@ -1,4 +1,6 @@
 ﻿using Alert.ViewModel;
+using Alert.DataTypes;
+using System.Diagnostics;
 
 namespace Alert
 {
