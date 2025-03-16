@@ -21,6 +21,10 @@ bld/
 *.userosscache
 *.sln.docstates
 
+# My files
+*.mp3
+*playbacku
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
