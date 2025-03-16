@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Alert.DataTypes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -18,19 +19,19 @@ namespace Alert.ViewModel;
 public partial class AlertDetailViewModel : ObservableObject
 {
     [ObservableProperty]
-    bool isAlertNew;
+    private bool isAlertNew;
 
     [ObservableProperty]
-    TimeSpan time;
+    private TimeSpan time;
 
     [ObservableProperty]
-    string? name;
+    private string? name;
 
     [ObservableProperty]
-    AlertInfo? info;
+    private AlertInfo? info;
 
     [RelayCommand]
-    async Task Back(bool cancelled = true)
+    private async Task Back(bool cancelled = true)
     {
         if (Info is null)
             return;
@@ -40,7 +41,11 @@ public partial class AlertDetailViewModel : ObservableObject
             // if backed from existing alert, just go back to MainView
             if (IsAlertNew == false)
             {
-                await Shell.Current.GoToAsync($"..?Cancelled = {cancelled}", animate: true);
+                await Shell.Current.GoToAsync($"..", animate: true,
+                    new Dictionary<string,object>
+                    {
+                        {"Cancelled", cancelled }
+                    });
                 return;
             }
             // if saved new alert, go back to MainView and add it to ObservableCollection
@@ -48,7 +53,7 @@ public partial class AlertDetailViewModel : ObservableObject
                 new Dictionary<string, object>
             {
                 {"ModifiedAlert", this.Info},
-                {"Cancelled", cancelled }
+                //{"Cancelled", cancelled }
             });
             return;
         }
@@ -58,14 +63,14 @@ public partial class AlertDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task Save()
+    private async Task Save()
     {
         if (Info is null)
             return;
         if (Name is null || Name == string.Empty)
             return;
 
-        // save new alert information to class and then go back to main
+        // save new alert information to Info <AlertInfo> object and then go back to main
         Info.Time = TimeOnly.FromTimeSpan(Time);
         Info.Name = Name;
         Info.Active = true;
